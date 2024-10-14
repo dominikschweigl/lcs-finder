@@ -10,9 +10,23 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-public class ApacheLastCommonCommitsFinderTest {
-    private final static LastCommonCommitsFinderFactory commitFinderFactory = new ApacheLastCommonCommitsFinderFactory();
+public class BFSLastCommonCommitsFinderTest {
+    private final static LastCommonCommitsFinderFactory commitFinderFactory = new BFSLastCommonCommitsFinderFactory();
     private final static CommitProviderFactory commitProviderFactory = new ApacheCommitProviderFactory();
+
+    @Test
+    public void testDoesNotContainCommit() {
+        Commit A = new Commit("A", List.of());
+        Commit B = new Commit("B", List.of(A));
+        Commit C = new Commit("C", List.of(A));
+
+        List<Commit> graph = List.of(B, C);
+
+        LastCommonCommitsFinder commitsFinder = commitFinderFactory.create(
+                commitProviderFactory.create(graph)
+        );
+        Assertions.assertThrows(IOException.class, () -> {commitsFinder.findLastCommonCommits("B", "C");});
+    }
 
     @Test
     public void testFindLastCommonCommitsAncestor() throws IOException {

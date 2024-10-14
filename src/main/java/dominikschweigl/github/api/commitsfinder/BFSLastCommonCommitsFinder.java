@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ApacheLastCommonCommitsFinder implements LastCommonCommitsFinder {
+public class BFSLastCommonCommitsFinder implements LastCommonCommitsFinder {
     final private CommitProvider provider;
 
     final private Map<String, Commit> commits = new HashMap<>();
@@ -120,7 +120,7 @@ public class ApacheLastCommonCommitsFinder implements LastCommonCommitsFinder {
         return reachableCommits;
     }
 
-    public ApacheLastCommonCommitsFinder (CommitProvider provider) {
+    public BFSLastCommonCommitsFinder(CommitProvider provider) {
         this.provider = provider;
     }
 }

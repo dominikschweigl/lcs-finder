@@ -29,6 +29,9 @@ public class CustomCommitProvider implements CommitProvider {
             seen.add(currentSha);
 
             Commit current = commits.get(currentSha);
+            if (current == null) {
+                throw new IOException("Graph references Node not contained");
+            }
             commitsStartingAt.add(current);
 
             if (current.parents() != null) {

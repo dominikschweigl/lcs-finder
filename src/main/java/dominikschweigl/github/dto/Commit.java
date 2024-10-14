@@ -12,10 +12,22 @@ public record Commit  (
         String comments_url,
         Author author,
         Committer committer,
-        List<Parent> parents
+        List<GitHubParent> parents
 ) implements Parent {
     public Commit(String sha, List<Parent> parents) {
-        this(sha, null, null, null, null, null, null, null, parents);
+        this(
+                sha,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                parents != null
+                        ? parents.stream().map(p -> new GitHubParent(p.sha())).toList()
+                        : null
+        );
     }
 
     @Override
